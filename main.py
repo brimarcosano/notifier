@@ -67,31 +67,40 @@ class SetNotifications:
         print(time_list)
 
         msg = self.notes.get()
-        while True:
-            for t in time_list:
-                now = datetime.datetime.now().strftime('%H:%M')
-                # print(now)
-                # print(t + ' t')
-                if (t == now):
-                    try:
-                        notification.notify(
-                            title=f'Reminder set for {t}',
-                            message=msg,
-                            app_name='notifications',
-                            timeout=5
-                            )
-                        time_list.remove(t)
-                        time.sleep(60)
-                    except ValueError:
-                        pass
-                else:
-                    continue
+        # while True:
+        for t in time_list:
+            now = datetime.datetime.now().strftime('%H:%M')
+            print(now)
+            print(t + ' t')
+            if (t == now):
+                try:
+                    notification.notify(
+                        title=f'Reminder set for {t}',
+                        message=msg,
+                        app_name='notifications',
+                        timeout=5
+                        )
+                    time_list.remove(t)
+                    time.sleep(1)
+                except ValueError:
+                    pass
+            else:
+                continue
+                    
+    # not working not working not working
+    # def makeConcurrent(self, *args):
+    #     with concurrent.futures.ThreadPoolExecutor() as executor:
+    #         f = executor.submit(self.pushNotification, 1)
+    #         print(f.result())
+
 
 
 if __name__ == '__main__':
     root = Tk()
     SetNotifications(root)
+
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     f = executor.submit(root.mainloop(), 1)
+        # print(f.result)
+
     root.mainloop()
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        f = executor.submit(pushNotification, 60)
-        print(f.result())
